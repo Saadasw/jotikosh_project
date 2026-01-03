@@ -1,0 +1,20 @@
+databases:
+  - name: jotikosh-db
+    plan: free
+    databaseName: jotikosh
+    user: jotikosh_user
+
+services:
+  - type: web
+    name: jotikosh-api
+    plan: free
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: jotikosh-db
+          property: connectionString
